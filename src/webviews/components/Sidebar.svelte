@@ -26,13 +26,17 @@
           break;
         case "token":
           accessToken = message.value;
+          console.log("the access token", message.value);
           const response = await fetch(`${apiBaseUrl}/me`, {
             headers: {
               authorization: `Bearer ${accessToken}`,
             },
           });
+
+          console.log("response", response);
           const data = await response.json();
           user = data.user;
+          console.log("the fucking user", user);
           break;
       }
     });

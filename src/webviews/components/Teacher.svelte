@@ -2,9 +2,11 @@
   import Avatar from "./Avatar.svelte";
   import StarRating from "./StarRating.svelte";
   import Reviews from "./Reviews.svelte";
+  import { io } from "socket.io-client";
 
   import type { User } from "../../types";
   import { onMount } from "svelte";
+  import { isObject } from "lodash";
 
   export let teacher: User;
   export let accessToken: string;
@@ -12,6 +14,8 @@
   let reviews: { averageStarRating: number; reviews: string[] };
   let showReviewInput: boolean = false;
   let newReview: { review: string; stars: number } = { review: "", stars: 0 };
+  let socket: any = false;
+  let chatMessage: any = [];
 
   onMount(async () => {
     reviews = await (
@@ -21,6 +25,12 @@
         },
       })
     ).json();
+  });
+
+  socket = io(apiBaseUrl);
+  socket.on("message-from-server", (message: string) => {
+    console.log("from the server", message);
+    chatMessage = [message, ...chatMessage];
   });
 
   const handleReview = (event: any) => {
@@ -58,7 +68,11 @@
   <StarRating rating={reviews.averageStarRating} />
   <Reviews reviews={reviews.reviews} />
 {/if}
-<button>send a message</button>
+<button
+  on:click={() => {
+    socket.emit("message-from-client", "this is a FUCKING message");
+  }}>send a message</button
+>
 <button on:click={() => (showReviewInput = true)}>leave a review</button>
 
 {#if showReviewInput}
@@ -86,6 +100,14 @@
   </form>
 {/if}
 <button>send a screen recording</button>
+
+<ul>
+  {#each chatMessage as message}
+    <li>
+      {message}
+    </li>
+  {/each}
+</ul>
 
 <style>
 </style>
