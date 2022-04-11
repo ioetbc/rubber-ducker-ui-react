@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import type { User, Page } from "../../types";
   import { isEmpty } from "lodash";
+  import { io } from "socket.io-client";
 
   import Avatar from "./Avatar.svelte";
   import FindTeacher from "./FindTeacher.svelte";
@@ -13,7 +14,8 @@
   let teacher: User | null = null;
   let accessToken: string = "";
   let page: Page = tsvscode.getState()?.page || "profile";
-
+  let socket: any;
+  let room: string = "";
   $: tsvscode.setState({ page });
 
   onMount(async () => {
@@ -38,6 +40,12 @@
           user = data.user;
           console.log("the fucking user", user);
           break;
+      }
+
+      socket = io(apiBaseUrl);
+      if (user?.username) {
+        room = user.username;
+        socket.emit("join-room", room);
       }
     });
     tsvscode.postMessage({ type: "getToken", value: undefined });
@@ -77,7 +85,7 @@
 {/if}
 
 {#if page === "teacher" && teacher && user}
-  <Teacher {teacher} {user} {accessToken} />
+  <Teacher {socket} {teacher} {user} {accessToken} />
 {/if}
 
 <button on:click={() => handlePageSelection("homepage")}>find teachers</button>

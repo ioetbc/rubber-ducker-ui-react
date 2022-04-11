@@ -2,7 +2,7 @@
   import Avatar from "./Avatar.svelte";
   import StarRating from "./StarRating.svelte";
   import Reviews from "./Reviews.svelte";
-  import { io } from "socket.io-client";
+  // import { io } from "socket.io-client";
 
   import type { User } from "../../types";
   import { onMount } from "svelte";
@@ -11,13 +11,12 @@
   export let teacher: User;
   export let user: User;
   export let accessToken: string;
+  export let socket: any;
 
   let reviews: { averageStarRating: number; reviews: string[] };
   let showReviewInput: boolean = false;
   let newReview: { review: string; stars: number } = { review: "", stars: 0 };
-  let socket: any = false;
-  let room: string = "";
-
+  let room: string;
   let chatMessage: any = [];
 
   onMount(async () => {
@@ -28,7 +27,7 @@
         },
       })
     ).json();
-    socket = io(apiBaseUrl);
+    // socket = io(apiBaseUrl);
     room = teacher.username;
     socket.emit("join-room", room);
 
