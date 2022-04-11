@@ -29,7 +29,7 @@
       })
     ).json();
     socket = io(apiBaseUrl);
-    room = `${user.username}:${teacher.username}`;
+    room = teacher.username;
     socket.emit("join-room", room);
 
     // join a room (teacher:student)
