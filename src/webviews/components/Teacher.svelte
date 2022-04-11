@@ -27,10 +27,33 @@
     ).json();
   });
 
-  socket = io(apiBaseUrl);
-  socket.on("message-from-server", (message: string) => {
-    console.log("from the server", message);
-    chatMessage = [message, ...chatMessage];
+  socket = io(apiBaseUrl, { autoConnect: false });
+
+  socket.onAny((event: any, ...args: any) => {
+    console.log(`caught some socket.io event: ${event}`, args);
+  });
+
+  const handleTextBoxFocus = () => {
+    console.log("called!!!!!!");
+    socket.auth = { username: teacher.username };
+    socket.connect();
+
+    socket.on("connect_error", (err: any) => {
+      if (err.message === "invalid socketio username") {
+        console.log("error connecting to socket cause no username was passed");
+      }
+    });
+
+    socket.emit("private-message-client", {
+      content: "this will be a private message",
+      toAddress: teacher.username,
+    });
+  };
+
+  socket.on("private-message-server", ({ content, from, toAddress }: any) => {
+    console.log("the fucking message from the server!!!!!", content);
+    console.log("the fucking message from the server!!!!!", from);
+    console.log("the fucking message from the server!!!!!", toAddress);
   });
 
   const handleReview = (event: any) => {
@@ -68,6 +91,8 @@
   <StarRating rating={reviews.averageStarRating} />
   <Reviews reviews={reviews.reviews} />
 {/if}
+
+<textarea on:focus={handleTextBoxFocus} type="text" />
 <button
   on:click={() => {
     socket.emit("message-from-client", "this is a FUCKING message");
