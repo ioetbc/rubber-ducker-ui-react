@@ -37,8 +37,9 @@
   });
 
   const handleSendMessage = (event: any) => {
-    const message = event?.target?.value;
-    socket.emit("private-message", message, room);
+    // const message = event?.target?.value;
+    // console.log("message bitch", message);
+    socket.emit("private-message", "a fucking essage m8888888", room);
   };
 
   if (socket) {
