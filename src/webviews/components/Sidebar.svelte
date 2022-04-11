@@ -47,6 +47,12 @@
         room = user.username;
         socket.emit("join-room", room);
       }
+
+      socket.on("connect", function () {
+        socket.on("recieve-message", (message: string) => {
+          console.log("recieved from the server", message);
+        });
+      });
     });
     tsvscode.postMessage({ type: "getToken", value: undefined });
   });

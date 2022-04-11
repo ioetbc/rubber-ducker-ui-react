@@ -33,12 +33,6 @@
 
     // join a room (teacher:student)
     // create an input that takes the message and sends to the server
-
-    socket.on("connect", function () {
-      socket.on("recieve-message", (message: string) => {
-        console.log("recieved from the server", message);
-      });
-    });
   });
 
   const handleSendMessage = (event: any) => {
