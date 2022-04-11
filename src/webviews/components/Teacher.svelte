@@ -37,9 +37,15 @@
   });
 
   const handleSendMessage = (event: any) => {
+    event.preventDefault();
     // const message = event?.target?.value;
-    // console.log("message bitch", message);
-    socket.emit("private-message", "a fucking essage m8888888", room);
+    console.log("message bitch", room);
+    // socket.emit("private-message", "a fucking essage m8888888", room);
+  };
+
+  const handleMessage = (event: any) => {
+    console.log(event?.target?.value);
+    socket.emit("private-message", event?.target?.value, room);
   };
 
   if (socket) {
@@ -86,7 +92,7 @@
   <Reviews reviews={reviews.reviews} />
 {/if}
 <form on:submit={handleSendMessage}>
-  <textarea type="text" />
+  <textarea type="text" on:input={handleMessage} />
   <button type="submit">send</button>
 </form>
 
