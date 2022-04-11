@@ -41,11 +41,13 @@
     socket.emit("private-message", message, room);
   };
 
-  socket.on("connect", function () {
-    socket.on("recieve-message", (message: string) => {
-      console.log("recieved from the server", message);
+  if (socket) {
+    socket.on("connect", function () {
+      socket.on("recieve-message", (message: string) => {
+        console.log("recieved from the server", message);
+      });
     });
-  });
+  }
 
   const handleReview = (event: any) => {
     newReview.review = event?.target?.value;
