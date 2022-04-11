@@ -9,12 +9,15 @@
   import { isObject } from "lodash";
 
   export let teacher: User;
+  export let user: User;
   export let accessToken: string;
 
   let reviews: { averageStarRating: number; reviews: string[] };
   let showReviewInput: boolean = false;
   let newReview: { review: string; stars: number } = { review: "", stars: 0 };
   let socket: any = false;
+  let room: string = "";
+
   let chatMessage: any = [];
 
   onMount(async () => {
@@ -25,35 +28,23 @@
         },
       })
     ).json();
+    socket = io(apiBaseUrl);
+    room = `${user.username}:${teacher.username}`;
+    socket.emit("join-room", room);
+
+    // join a room (teacher:student)
+    // create an input that takes the message and sends to the server
   });
 
-  socket = io(apiBaseUrl, { autoConnect: false });
-
-  socket.onAny((event: any, ...args: any) => {
-    console.log(`caught some socket.io event: ${event}`, args);
-  });
-
-  const handleTextBoxFocus = () => {
-    console.log("called!!!!!!");
-    socket.auth = { username: teacher.username };
-    socket.connect();
-
-    socket.on("connect_error", (err: any) => {
-      if (err.message === "invalid socketio username") {
-        console.log("error connecting to socket cause no username was passed");
-      }
-    });
-
-    socket.emit("private-message-client", {
-      content: "this will be a private message",
-      toAddress: teacher.username,
-    });
+  const handleSendMessage = (event: any) => {
+    const message = event?.target?.value;
+    socket.emit("private-message", message, room);
   };
 
-  socket.on("private-message-server", ({ content, from, toAddress }: any) => {
-    console.log("the fucking message from the server!!!!!", content);
-    console.log("the fucking message from the server!!!!!", from);
-    console.log("the fucking message from the server!!!!!", toAddress);
+  socket.on("connect", function () {
+    socket.on("recieve-message", (message: string) => {
+      console.log("recieved from the server", message);
+    });
   });
 
   const handleReview = (event: any) => {
@@ -91,13 +82,11 @@
   <StarRating rating={reviews.averageStarRating} />
   <Reviews reviews={reviews.reviews} />
 {/if}
+<form on:submit={handleSendMessage}>
+  <textarea type="text" />
+  <button type="submit">send</button>
+</form>
 
-<textarea on:focus={handleTextBoxFocus} type="text" />
-<button
-  on:click={() => {
-    socket.emit("message-from-client", "this is a FUCKING message");
-  }}>send a message</button
->
 <button on:click={() => (showReviewInput = true)}>leave a review</button>
 
 {#if showReviewInput}

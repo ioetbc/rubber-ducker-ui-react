@@ -76,8 +76,8 @@
   >
 {/if}
 
-{#if page === "teacher" && teacher}
-  <Teacher {teacher} {accessToken} />
+{#if page === "teacher" && teacher && user}
+  <Teacher {teacher} {user} {accessToken} />
 {/if}
 
 <button on:click={() => handlePageSelection("homepage")}>find teachers</button>
