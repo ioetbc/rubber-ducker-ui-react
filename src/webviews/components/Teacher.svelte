@@ -33,6 +33,12 @@
 
     // join a room (teacher:student)
     // create an input that takes the message and sends to the server
+
+    socket.on("connect", function () {
+      socket.on("recieve-message", (message: string) => {
+        console.log("recieved from the server", message);
+      });
+    });
   });
 
   const handleSendMessage = (event: any) => {
@@ -46,14 +52,6 @@
     console.log(event?.target?.value);
     socket.emit("private-message", event?.target?.value, room);
   };
-
-  if (socket) {
-    socket.on("connect", function () {
-      socket.on("recieve-message", (message: string) => {
-        console.log("recieved from the server", message);
-      });
-    });
-  }
 
   const handleReview = (event: any) => {
     newReview.review = event?.target?.value;
