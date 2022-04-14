@@ -2,19 +2,18 @@
   import { onMount } from "svelte";
   import type { User, Page } from "../../types";
   import { isEmpty } from "lodash";
-  import { io } from "socket.io-client";
 
   import Avatar from "./Avatar.svelte";
   import FindTeacher from "./FindTeacher.svelte";
   import Profile from "./Profile.svelte";
   import Teacher from "./Teacher.svelte";
+  import ActiveUsers from "./ActiveUsers.svelte";
 
   let todos: Array<{ text: string; completed: boolean }> = [];
   let user: User | null = null;
   let teacher: User | null = null;
   let accessToken: string = "";
-  let page: Page = tsvscode.getState()?.page || "profile";
-  let socket: any;
+  let page: Page = tsvscode.getState()?.page || "homepage";
   let room: string = "";
   $: tsvscode.setState({ page });
 
@@ -41,18 +40,6 @@
           console.log("the fucking user", user);
           break;
       }
-
-      socket = io(apiBaseUrl);
-      if (user?.username) {
-        room = user.username;
-        socket.emit("join-room", room);
-      }
-
-      socket.on("connect", function () {
-        socket.on("recieve-message", (message: string) => {
-          console.log("recieved from the server", message);
-        });
-      });
     });
     tsvscode.postMessage({ type: "getToken", value: undefined });
   });
@@ -72,34 +59,24 @@
       tsvscode.postMessage({ type: "authenticate", value: undefined });
     }}>login with github</button
   >
-{/if}
-
-{#if !isEmpty(user) && page === "profile"}
-  {#if user}
-    <Profile {user} {accessToken} />
-  {/if}
-{/if}
-
-{#if !isEmpty(user) && page === "homepage"}
-  {#if user}
-    <Avatar {user} />
-  {/if}
+{:else if page === "homepage" && user}
   <FindTeacher {handlePageSelection} {handleTeacherSelection} {accessToken} />
+{:else if page === "profile" && user}
+  <Profile {user} {accessToken} />
+{:else if page === "teacher" && user && teacher}
+  <Teacher {teacher} {user} {accessToken} />
+{/if}
 
+<div style="position: fixed; bottom: 16px">
   <button on:click={() => handlePageSelection("profile")}>update profile</button
   >
-{/if}
+  <button on:click={() => handlePageSelection("homepage")}>find teacher</button>
 
-{#if page === "teacher" && teacher && user}
-  <Teacher {socket} {teacher} {user} {accessToken} />
-{/if}
-
-<button on:click={() => handlePageSelection("homepage")}>find teachers</button>
-
-<button
-  on:click={() => {
-    accessToken = "";
-    user = null;
-    tsvscode.postMessage({ type: "logout", value: undefined });
-  }}>logout</button
->
+  <button
+    on:click={() => {
+      accessToken = "";
+      user = null;
+      tsvscode.postMessage({ type: "logout", value: undefined });
+    }}>logout</button
+  >
+</div>

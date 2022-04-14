@@ -2,7 +2,6 @@
   import Avatar from "./Avatar.svelte";
   import StarRating from "./StarRating.svelte";
   import Reviews from "./Reviews.svelte";
-  // import { io } from "socket.io-client";
 
   import type { User } from "../../types";
   import { onMount } from "svelte";
@@ -11,7 +10,6 @@
   export let teacher: User;
   export let user: User;
   export let accessToken: string;
-  export let socket: any;
 
   let reviews: { averageStarRating: number; reviews: string[] };
   let showReviewInput: boolean = false;
@@ -27,25 +25,13 @@
         },
       })
     ).json();
-    // socket = io(apiBaseUrl);
-    room = teacher.username;
-    socket.emit("join-room", room);
-
-    // join a room (teacher:student)
-    // create an input that takes the message and sends to the server
   });
 
   const handleSendMessage = (event: any) => {
     event.preventDefault();
-    // const message = event?.target?.value;
-    console.log("message bitch", room);
-    // socket.emit("private-message", "a fucking essage m8888888", room);
   };
 
-  const handleMessage = (event: any) => {
-    console.log(event?.target?.value);
-    socket.emit("private-message", event?.target?.value, room);
-  };
+  const handleMessage = (event: any) => {};
 
   const handleReview = (event: any) => {
     newReview.review = event?.target?.value;
@@ -75,7 +61,7 @@
   };
 </script>
 
-<Avatar user={teacher} />
+<Avatar handleTeacher={null} user={teacher} />
 <h2>bio</h2>
 <p>{teacher.bio}</p>
 {#if reviews}

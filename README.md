@@ -4,7 +4,7 @@
 
 1. run `npm run watch` this will compile the extension using webpack and will compile the svelete ui at the same time using concurrently
 2. start debugging
-3. to reload the webvoew `shift r`
+3. to reload the webvoew `caps r`
 
 ## What files do
 
