@@ -1,2 +1,4 @@
-export const apiBaseUrl = "http://localhost:3015";
-// export const apiBaseUrl = "https://ruber-ducker-api.herokuapp.com";
+// export const apiBaseUrl =
+//   "https://us-central1-rubberducker-35ee3.cloudfunctions.net/authenticateUserViaGithub";
+export const apiBaseUrl =
+  "http://localhost:5001/rubberducker-35ee3/us-central1";

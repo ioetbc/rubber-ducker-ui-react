@@ -31,7 +31,7 @@ export const authenticate = (cb: () => void) => {
       console.log("called the authenticate function");
       vscode.commands.executeCommand(
         "vscode.open",
-        vscode.Uri.parse(`${apiBaseUrl}/auth`)
+        vscode.Uri.parse(`${apiBaseUrl}/login/auth`)
       );
     }
   });

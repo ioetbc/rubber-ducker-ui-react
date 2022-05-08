@@ -1,14 +1,13 @@
 import React from "react";
-import Chat from "./Chat";
-import { SignIn } from "./SignIn";
+import { RubberDuckerContextProvider } from "../context/RubberDuckerContext";
+import { App } from "./App";
 
-function App() {
+function Sidebar() {
   return (
-    <div className="App">
-      <SignIn />
-      {/* <Chat /> */}
-    </div>
+    <RubberDuckerContextProvider>
+      <App />
+    </RubberDuckerContextProvider>
   );
 }
 
-export default App;
+export default Sidebar;

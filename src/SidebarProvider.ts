@@ -42,10 +42,25 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           });
           break;
         }
+
         case "getToken": {
           webviewView.webview.postMessage({
-            type: "token",
+            type: "accessToken",
             value: TokenManager.getToken(),
+          });
+          break;
+        }
+        case "setIdToken": {
+          webviewView.webview.postMessage({
+            type: "setIdToken",
+            value: TokenManager.setIdToken(data.value),
+          });
+          break;
+        }
+        case "getIdToken": {
+          webviewView.webview.postMessage({
+            type: "recieveRefreshToken",
+            value: TokenManager.getIdToken(),
           });
           break;
         }
