@@ -8,6 +8,8 @@ import { PreviousMessages } from "./PreviousMessages";
 import { MessageInput } from "./MessageInput";
 import { ProfileReviews } from "./ProfileReviews";
 import { HeadingThree } from "./Fonts";
+import { TopTech } from "./TopTech";
+import { Bio } from "./Bio";
 
 const Container = styled.div`
   width: 100%;
@@ -19,6 +21,8 @@ export const Profile = () => {
   return (
     <Container>
       <ProfileIdentifier />
+      <Bio />
+      <TopTech />
       <ProfileReviews />
       <MessagesContainer>
         <HeadingThree text="messages" />

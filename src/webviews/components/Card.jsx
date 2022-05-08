@@ -6,9 +6,10 @@ import { RubberDuckerContext } from "../context/RubberDuckerContext";
 
 const Container = styled.div`
   position: fixed;
-  top: 25%;
+  bottom: 0;
   width: 100%;
-  height: 100%;
+  height: 800px;
+  overflow-y: scroll;
   background: blue;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
