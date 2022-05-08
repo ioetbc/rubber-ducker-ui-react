@@ -1,20 +1,32 @@
 import React, { useContext } from "react";
+import styled from "styled-components";
+
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import { ProfileIdentifier } from "./ProfileIdentifier";
+import { MessagesContainer } from "./MessagesContainer";
 import { PreviousMessages } from "./PreviousMessages";
 import { MessageInput } from "./MessageInput";
 import { ProfileReviews } from "./ProfileReviews";
+import { HeadingThree } from "./Fonts";
+
+const Container = styled.div`
+  width: 100%;
+  padding: 12px;
+`;
 
 export const Profile = () => {
   const { currentCollaborator } = useContext(RubberDuckerContext);
   return (
-    <>
+    <Container>
       <ProfileIdentifier />
       <ProfileReviews />
-      <PreviousMessages />
-      <MessageInput
-        placeholder={`Tell ${currentCollaborator.username} what you are stuck on`}
-      />
-    </>
+      <MessagesContainer>
+        <HeadingThree text="messages" />
+        <PreviousMessages />
+        <MessageInput
+          placeholder={`Tell ${currentCollaborator.username} what you are stuck on`}
+        />
+      </MessagesContainer>
+    </Container>
   );
 };

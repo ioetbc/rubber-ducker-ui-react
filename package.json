@@ -126,6 +126,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-firebase-hooks": "^5.0.3",
+    "react-icons": "^4.3.1",
     "react-scripts": "^5.0.1",
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.5",
