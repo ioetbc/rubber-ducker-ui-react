@@ -7,6 +7,7 @@ import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import { getMessengerDocName } from "../utils/db/getMessengerDocName";
+import { Paragraph } from "./Fonts";
 
 const MessagesContainer = styled.div`
   height: 300px;
@@ -53,7 +54,7 @@ export const PreviousMessages = () => {
         <MessageBubble
           youSentThisMessage={message.from === currentUser.username}
         >
-          <p>{message.text}</p>
+          <Paragraph text={message.text} />
         </MessageBubble>
       ))}
     </MessagesContainer>

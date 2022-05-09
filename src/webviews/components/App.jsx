@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import { httpsCallable } from "firebase/functions";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db, functions } from "../../firebaseApp";
 
 import { ProfileCard } from "./ProfileCard";
 import { Card } from "./Card";
 import { Profile } from "./Profile";
+import { SearchableDropdown } from "./DropDown";
+import { Pill } from "./Pill";
 
 export const App = () => {
   const {
@@ -18,6 +20,7 @@ export const App = () => {
     currentScreen,
   } = useContext(RubberDuckerContext);
   const [login, setLogin] = useState(true);
+  const [techFilters, setTechFilters] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [users, setUsers] = useState([]);
 
@@ -60,26 +63,19 @@ export const App = () => {
     });
   };
 
-  const checkUser = async () => {
-    tsvscode.postMessage({ type: "getToken", value: undefined });
-    window.addEventListener("message", async (event) => {
-      const message = event.data;
+  const filterUsers = async () => {
+    setUsers([]);
 
-      if (message.type !== "token") return;
-
-      const accessToken = message.value;
-
-      const bar = httpsCallable(functions, "bar");
-      const result = await bar({ accessToken });
-      console.log("is the user logged in?", result);
-    });
-  };
-
-  const getAllUsers = async () => {
-    const collectionRef = collection(db, "users");
     try {
-      const snapshot = await getDocs(collectionRef);
-      snapshot.docs.forEach((doc) => {
+      const ref = collection(db, "users");
+      const snapshot = await getDocs(ref);
+      const clientFilters = ["node", "python"];
+
+      snapshot.docs.forEach(async (doc) => {
+        const containsAll = clientFilters.every((type) =>
+          doc.data().technology.includes(type)
+        );
+        if (!containsAll) return;
         setUsers((users) => [...users, { ...doc.data(), id: doc.id }]);
       });
     } catch (error) {
@@ -95,23 +91,29 @@ export const App = () => {
           {errorMessage && <p>{errorMessage}</p>}
         </>
       ) : (
-        <p>already logged in :) {currentUser.username}</p>
-      )}
-
-      <button onClick={checkUser}>check user is authenticated</button>
-      <button onClick={getAllUsers}>get all users</button>
-      {/* {accessToken && accessToken} */}
-      {users.map((user) => (
-        <ProfileCard
-          github_id={user.github_id}
-          profileURL={user.profileURL}
-          username={user.username}
-        />
-      ))}
-      {currentScreen === "profile" && (
-        <Card>
-          <Profile />
-        </Card>
+        <>
+          <button onClick={filterUsers}>filter users</button>
+          <SearchableDropdown
+            techFilters={techFilters}
+            setTechFilters={setTechFilters}
+            setUsers={setUsers}
+          />
+          {techFilters.map((type) => (
+            <Pill label={type} />
+          ))}
+          {users.map((user) => (
+            <ProfileCard
+              github_id={user.github_id}
+              profileURL={user.profileURL}
+              username={user.username}
+            />
+          ))}
+          {currentScreen === "profile" && (
+            <Card>
+              <Profile />
+            </Card>
+          )}
+        </>
       )}
     </>
   );

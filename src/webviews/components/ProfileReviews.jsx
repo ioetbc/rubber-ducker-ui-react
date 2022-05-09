@@ -22,6 +22,10 @@ const Container = styled.div`
   .rating {
     text-align: center;
   }
+  .content {
+    display: flex;
+    gap: 8px;
+  }
 `;
 
 export const ProfileReviews = () => {
@@ -63,7 +67,10 @@ export const ProfileReviews = () => {
       <ul className="list">
         {reviews.map((review) => (
           <li>
-            <Paragraph text={review.message} />
+            <div className="content">
+              <Paragraph text={review.message} />
+              <Paragraph text={"*".repeat(review.rating)} />
+            </div>
             <HeadingFive className="from" text={`from ${review.from}`} />
           </li>
         ))}

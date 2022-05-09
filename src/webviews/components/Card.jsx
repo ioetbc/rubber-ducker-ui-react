@@ -8,7 +8,7 @@ const Container = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 800px;
+  height: 700px;
   overflow-y: scroll;
   background: blue;
   border-top-left-radius: 8px;
