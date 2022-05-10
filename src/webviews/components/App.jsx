@@ -98,8 +98,8 @@ export const App = () => {
             setTechFilters={setTechFilters}
             setUsers={setUsers}
           />
-          {techFilters.map((type) => (
-            <Pill label={type} />
+          {techFilters.map((tech) => (
+            <Pill label={tech.type} />
           ))}
           {users.map((user) => (
             <ProfileCard
