@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 
 const KEY = "rubberDuckerToken";
 const ID_TOKEN_KEY = "idToken";
+
 export class TokenManager {
   static globalState: vscode.Memento;
 

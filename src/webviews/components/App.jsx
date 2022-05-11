@@ -7,19 +7,16 @@ import { db, functions } from "../../firebaseApp";
 import { ProfileCard } from "./ProfileCard";
 import { Card } from "./Card";
 import { Profile } from "./Profile";
+import { MessageOverview } from "./MessageOverview";
+import { DirectMessages } from "./DirectMessages";
 import { SearchableDropdown } from "./DropDown";
 import { Pill } from "./Pill";
 
+// make the midlewear add a last seenn timestamp to use for (last online / active)
 export const App = () => {
-  const {
-    setAccessToken,
-    accessToken,
-    setCurrentUser,
-    currentUser,
-    currentCollaborator,
-    currentScreen,
-  } = useContext(RubberDuckerContext);
-  const [login, setLogin] = useState(true);
+  const { setAccessToken, setCurrentUser, currentScreen, setCurrentScreen } =
+    useContext(RubberDuckerContext);
+  const [login, setLogin] = useState(false);
   const [techFilters, setTechFilters] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [users, setUsers] = useState([]);
@@ -30,16 +27,16 @@ export const App = () => {
       if (event.data.type !== "accessToken") return;
       const token = event.data.value;
       if (!token) {
-        setLogin(true);
+        setLogin(false);
       }
       try {
         const bar = httpsCallable(functions, "bar");
         const result = await bar({ accessToken: token });
         setAccessToken(token);
         setCurrentUser(result.data);
-        setLogin(false);
-      } catch (error) {
         setLogin(true);
+      } catch (error) {
+        setLogin(false);
         setErrorMessage(error.toString());
       }
 
@@ -63,36 +60,18 @@ export const App = () => {
     });
   };
 
-  const filterUsers = async () => {
-    setUsers([]);
-
-    try {
-      const ref = collection(db, "users");
-      const snapshot = await getDocs(ref);
-      const clientFilters = ["node", "python"];
-
-      snapshot.docs.forEach(async (doc) => {
-        const containsAll = clientFilters.every((type) =>
-          doc.data().technology.includes(type)
-        );
-        if (!containsAll) return;
-        setUsers((users) => [...users, { ...doc.data(), id: doc.id }]);
-      });
-    } catch (error) {
-      setErrorMessage(error.toString());
-    }
-  };
-
   return (
     <>
-      {login ? (
+      {!login ? (
         <>
           <button onClick={loginUser}>login</button>
           {errorMessage && <p>{errorMessage}</p>}
         </>
       ) : (
         <>
-          <button onClick={filterUsers}>filter users</button>
+          <button onClick={() => setCurrentScreen("message-overview")}>
+            messages
+          </button>
           <SearchableDropdown
             techFilters={techFilters}
             setTechFilters={setTechFilters}
@@ -111,6 +90,16 @@ export const App = () => {
           {currentScreen === "profile" && (
             <Card>
               <Profile />
+            </Card>
+          )}
+          {currentScreen === "message-overview" && (
+            <Card>
+              <MessageOverview />
+            </Card>
+          )}
+          {currentScreen === "direct-message" && (
+            <Card>
+              <DirectMessages />
             </Card>
           )}
         </>

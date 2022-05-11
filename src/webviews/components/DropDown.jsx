@@ -4,17 +4,6 @@ import { db } from "../../firebaseApp";
 
 import DatalistInput, { useComboboxControls } from "react-datalist-input";
 
-[
-  {
-    type: "node",
-    proficiency: 8,
-  },
-  {
-    type: "node",
-    proficiency: 5,
-  },
-];
-
 export const SearchableDropdown = ({
   setUsers,
   techFilters,
@@ -30,17 +19,13 @@ export const SearchableDropdown = ({
     // do some more sanitizing checks
 
     if (
-      techFilters.some(
-        (filter) =>
-          filter.type === technology && filter.proficiency === proficiency
-      ) ||
+      techFilters.some((filter) => filter.type === technology) ||
       technology.length <= 0
     )
       return;
 
     // only set this proficieny if its changes
 
-    console.log("TECH FILTERS", techFilters);
     setTechFilters((techFilters) => [
       ...techFilters,
       { type: technology, proficiency },
@@ -72,6 +57,18 @@ export const SearchableDropdown = ({
 
   useEffect(() => {
     let filteredByAllConditions;
+
+    const phatArray = [];
+
+    phatArray.push(...filter1);
+    phatArray.push(...filter2);
+    phatArray.push(...filter3);
+
+    console.log("phatArray", phatArray);
+
+    // stick them all in a fat array
+    // filter them if the value doesnt appear .lenth times
+
     if (techFilters.length === 1) {
       filteredByAllConditions = filter1;
     }

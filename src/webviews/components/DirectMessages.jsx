@@ -1,46 +1,53 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
-
 import { onSnapshot, query, orderBy } from "firebase/firestore";
 
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import useMessageHistoryRef from "../utils/db/references";
-import { MessageBubble } from "./MessageBubble";
 
-const MessagesContainer = styled.div`
-  height: 300px;
-  overflow-y: scroll;
-  background: purple;
+import { MessageTile } from "./MessageTile";
+import { HeadingTwo } from "./Fonts";
+
+const Container = styled.div`
+  width: 100%;
+  padding: 12px;
 `;
 
-export const PreviousMessages = () => {
+export const DirectMessages = () => {
   const { currentCollaborator } = useContext(RubberDuckerContext);
   const docReference = useMessageHistoryRef();
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const fetchMessages = async () => {
+    const fetchConversationHistory = async () => {
       const q = query(docReference, orderBy("createdAt", "asc"));
       onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
-          setMessages((messages) => [...messages, { ...change.doc.data() }]);
+          setMessages((messages) => [
+            ...messages,
+            { ...change.doc.data(), ...currentCollaborator },
+          ]);
         });
       });
     };
 
     try {
-      setMessages([]);
-      fetchMessages();
+      fetchConversationHistory();
     } catch (error) {
       console.log("Error getting the messages", error);
     }
-  }, [currentCollaborator.username]);
+  }, []);
 
   return (
-    <MessagesContainer>
+    <Container>
+      <HeadingTwo text="messages" />
       {messages.map((message) => (
-        <MessageBubble message={message} />
+        <MessageTile
+          username={message.username}
+          profileURL={message.profileURL}
+          message={message.message}
+        />
       ))}
-    </MessagesContainer>
+    </Container>
   );
 };

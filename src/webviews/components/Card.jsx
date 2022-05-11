@@ -11,8 +11,6 @@ const Container = styled.div`
   height: 700px;
   overflow-y: scroll;
   background: blue;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
   .close-button {
     padding: 12px 8px 0 0;
     display: flex;

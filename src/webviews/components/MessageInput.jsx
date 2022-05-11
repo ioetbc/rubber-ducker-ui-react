@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
-import { db } from "../../firebaseApp";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
-import { getMessengerDocName } from "../utils/db/getMessengerDocName";
+import useMessageHistoryRef from "../utils/db/references";
 
 export const MessageInput = ({ placeholder }) => {
   const { currentUser, currentCollaborator } = useContext(RubberDuckerContext);
+  const docReference = useMessageHistoryRef();
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState();
 
@@ -23,14 +23,11 @@ export const MessageInput = ({ placeholder }) => {
       setErrorMessage("");
     }
     setMessage("");
-    const docName = getMessengerDocName([
-      currentUser.username,
-      currentCollaborator.username,
-    ]);
-    const messagesRef = collection(db, `messages/${docName}/conversations`);
-    await setDoc(doc(messagesRef), {
+
+    // perhaps when we set the doc we also set the avatar and any other info you might want to include along side the message. would mean we dont need to left join by doing a new query and then merging the states
+    await setDoc(doc(docReference), {
       text: message,
-      created_at: new Date().getTime(),
+      createdAt: new Date().getTime(),
       to: currentCollaborator.username,
       from: currentUser.username,
     });
