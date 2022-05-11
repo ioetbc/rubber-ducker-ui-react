@@ -5,7 +5,6 @@ import { onSnapshot, query, orderBy } from "firebase/firestore";
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import useMessageHistoryRef from "../hooks/db/useMessageHistoryRef";
 
-import { MessageTile } from "./MessageTile";
 import { HeadingTwo } from "./Fonts";
 import { MessageBubble } from "./MessageBubble";
 
@@ -43,7 +42,7 @@ export const DirectMessages = () => {
     <Container>
       <HeadingTwo text="messages" />
       {messages.map((message) => (
-        <MessageBubble message={message} />
+        <MessageBubble text={message.text} from={message.from} />
       ))}
     </Container>
   );

@@ -10,12 +10,12 @@ const Container = styled.div`
   margin: 12px;
 `;
 
-export const MessageBubble = ({ message }) => {
+export const MessageBubble = ({ from, text }) => {
   const { currentUser } = useContext(RubberDuckerContext);
 
   return (
-    <Container youSentThisMessage={message.from === currentUser.username}>
-      <Paragraph text={message.text} />
+    <Container youSentThisMessage={from === currentUser.username}>
+      <Paragraph text={text} />
     </Container>
   );
 };

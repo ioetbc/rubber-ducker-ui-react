@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import { httpsCallable } from "firebase/functions";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import { db, functions } from "../../firebaseApp";
+import { functions } from "../../firebaseApp";
 
 import { ProfileCard } from "./ProfileCard";
 import { Card } from "./Card";
@@ -12,7 +11,7 @@ import { DirectMessages } from "./DirectMessages";
 import { SearchableDropdown } from "./DropDown";
 import { Pill } from "./Pill";
 
-// make the midlewear add a last seenn timestamp to use for (last online / active)
+// make sure that all db queries are reading the gihub_id and not username etc
 export const App = () => {
   const { setAccessToken, setCurrentUser, currentScreen, setCurrentScreen } =
     useContext(RubberDuckerContext);

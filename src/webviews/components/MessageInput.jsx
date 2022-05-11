@@ -24,12 +24,16 @@ export const MessageInput = ({ placeholder }) => {
     }
     setMessage("");
 
-    // perhaps when we set the doc we also set the avatar and any other info you might want to include along side the message. would mean we dont need to left join by doing a new query and then merging the states
     await setDoc(doc(docReference), {
       text: message,
       createdAt: new Date().getTime(),
       to: currentCollaborator.username,
       from: currentUser.username,
+      user: {
+        username: currentCollaborator.username,
+        github_id: currentCollaborator.github_id,
+        profileURL: currentCollaborator.profileURL,
+      },
     });
   };
   return (

@@ -39,7 +39,7 @@ export const PreviousMessages = () => {
   return (
     <MessagesContainer>
       {messages.map((message) => (
-        <MessageBubble message={message} />
+        <MessageBubble text={message.text} from={message.from} />
       ))}
     </MessagesContainer>
   );
