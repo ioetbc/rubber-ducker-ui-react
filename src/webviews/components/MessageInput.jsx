@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
-import useMessageHistoryRef from "../utils/db/references";
+import useMessageHistoryRef from "../hooks/db/useMessageHistoryRef";
 
 export const MessageInput = ({ placeholder }) => {
   const { currentUser, currentCollaborator } = useContext(RubberDuckerContext);

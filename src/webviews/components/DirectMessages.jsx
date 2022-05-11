@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { onSnapshot, query, orderBy } from "firebase/firestore";
 
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
-import useMessageHistoryRef from "../utils/db/references";
+import useMessageHistoryRef from "../hooks/db/useMessageHistoryRef";
 
 import { MessageTile } from "./MessageTile";
 import { HeadingTwo } from "./Fonts";
+import { MessageBubble } from "./MessageBubble";
 
 const Container = styled.div`
   width: 100%;
@@ -42,11 +43,7 @@ export const DirectMessages = () => {
     <Container>
       <HeadingTwo text="messages" />
       {messages.map((message) => (
-        <MessageTile
-          username={message.username}
-          profileURL={message.profileURL}
-          message={message.message}
-        />
+        <MessageBubble message={message} />
       ))}
     </Container>
   );

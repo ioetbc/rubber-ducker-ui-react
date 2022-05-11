@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { onSnapshot, query, orderBy } from "firebase/firestore";
 
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
-import useMessageHistoryRef from "../utils/db/references";
+import useMessageHistoryRef from "../hooks/db/useMessageHistoryRef";
 import { MessageBubble } from "./MessageBubble";
 
 const MessagesContainer = styled.div`
