@@ -34,7 +34,7 @@ export const PreviousMessages = () => {
     } catch (error) {
       console.log("Error getting the messages", error);
     }
-  }, [currentCollaborator.username]);
+  }, [currentCollaborator.githubId]);
 
   return (
     <MessagesContainer>

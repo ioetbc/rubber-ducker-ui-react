@@ -16,16 +16,16 @@ const Container = styled.div`
   }
 `;
 
-export const ProfileCard = ({ github_id, profileURL, username }) => {
+export const ProfileCard = ({ githubId, profileURL, username }) => {
   const { setCurrentCollaborator, setCurrentScreen } =
     useContext(RubberDuckerContext);
 
   const handleProfile = () => {
     setCurrentScreen("profile");
-    setCurrentCollaborator({ username, github_id, profileURL });
+    setCurrentCollaborator({ username, githubId, profileURL });
   };
   return (
-    <Container key={github_id} onClick={handleProfile}>
+    <Container key={githubId} onClick={handleProfile}>
       <img className="avatar" src={profileURL} alt={username}></img>
       <p className="username">{username}</p>
     </Container>

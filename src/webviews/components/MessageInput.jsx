@@ -27,11 +27,11 @@ export const MessageInput = ({ placeholder }) => {
     await setDoc(doc(docReference), {
       text: message,
       createdAt: new Date().getTime(),
-      to: currentCollaborator.username,
-      from: currentUser.username,
+      to: currentCollaborator.githubId,
+      from: currentUser.githubId,
       user: {
         username: currentCollaborator.username,
-        github_id: currentCollaborator.github_id,
+        githubId: currentCollaborator.githubId,
         profileURL: currentCollaborator.profileURL,
       },
     });

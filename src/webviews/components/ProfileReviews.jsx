@@ -37,7 +37,7 @@ export const ProfileReviews = () => {
     const fetchReviews = async () => {
       const collectionRef = collection(
         db,
-        `reviews/${currentCollaborator.username}/reviews`
+        `reviews/${currentCollaborator.githubId}/reviews`
       );
       onSnapshot(collectionRef, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
@@ -68,7 +68,7 @@ export const ProfileReviews = () => {
         {reviews.map((review) => (
           <li>
             <div className="content">
-              <Paragraph text={review.message} />
+              <Paragraph text={review.text} />
               <Paragraph text={"*".repeat(review.rating)} />
             </div>
             <HeadingFive className="from" text={`from ${review.from}`} />

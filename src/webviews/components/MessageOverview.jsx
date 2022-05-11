@@ -26,15 +26,12 @@ export const MessageOverview = () => {
 
   useEffect(() => {
     const fetchLatestMessage = async () => {
-      currentUser.hasMessaged.forEach((collaborator) => {
-        // abstract this further we have the hook. can that be broken up?
-        const docName = getMessengerDocName([
-          currentUser.username,
-          collaborator,
-        ]);
+      currentUser.hasMessaged.forEach((githubId) => {
+        const docName = getMessengerDocName([currentUser.githubId, githubId]);
+
         const reference = collection(
           db,
-          `messages/${currentUser.username}/${docName}/history/messages`
+          `messages/${currentUser.githubId}/${docName}/history/messages`
         );
 
         const q = query(reference, orderBy("createdAt", "desc"), limit(1));
@@ -61,7 +58,7 @@ export const MessageOverview = () => {
           username={msg.user.username}
           profileURL={msg.user.profileURL}
           message={msg.text}
-          githubId={msg.user.github_id}
+          githubId={msg.user.githubId}
         />
       ))}
     </Container>

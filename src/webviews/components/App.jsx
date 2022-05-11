@@ -81,7 +81,7 @@ export const App = () => {
           ))}
           {users.map((user) => (
             <ProfileCard
-              github_id={user.github_id}
+              githubId={user.githubId}
               profileURL={user.profileURL}
               username={user.username}
             />

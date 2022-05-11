@@ -20,20 +20,13 @@ const Container = styled.div`
   }
 `;
 
-export const MessageTile = ({
-  profileURL,
-  username,
-  message,
-  githubId,
-  createdAt,
-  lastActive,
-}) => {
+export const MessageTile = ({ profileURL, username, message, githubId }) => {
   const { setCurrentCollaborator, setCurrentScreen } =
     useContext(RubberDuckerContext);
 
   const handleMessageTile = () => {
     setCurrentScreen("direct-message");
-    setCurrentCollaborator({ username, github_id: githubId, profileURL });
+    setCurrentCollaborator({ username, githubId, profileURL });
   };
   return (
     <Container>

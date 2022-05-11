@@ -14,7 +14,7 @@ export const MessageBubble = ({ from, text }) => {
   const { currentUser } = useContext(RubberDuckerContext);
 
   return (
-    <Container youSentThisMessage={from === currentUser.username}>
+    <Container youSentThisMessage={from === currentUser.githubId}>
       <Paragraph text={text} />
     </Container>
   );

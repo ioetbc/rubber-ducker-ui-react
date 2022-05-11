@@ -9,13 +9,13 @@ export default function useMessageHistoryRef() {
   const { currentUser, currentCollaborator } = useContext(RubberDuckerContext);
 
   const docName = getMessengerDocName([
-    currentUser.username,
-    currentCollaborator.username,
+    currentUser.githubId,
+    currentCollaborator.githubId,
   ]);
 
   const reference = collection(
     db,
-    `messages/${currentUser.username}/${docName}/history/messages`
+    `messages/${currentUser.githubId}/${docName}/history/messages`
   );
 
   return reference;
