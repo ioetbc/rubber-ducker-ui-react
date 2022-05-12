@@ -7,6 +7,7 @@ import useMessageHistoryRef from "../hooks/db/useMessageHistoryRef";
 
 import { HeadingTwo } from "./Fonts";
 import { MessageBubble } from "./MessageBubble";
+import { MessageInput } from "./MessageInput";
 
 const Container = styled.div`
   width: 100%;
@@ -19,6 +20,7 @@ export const DirectMessages = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    // look into serverside fetching
     const fetchConversationHistory = async () => {
       const q = query(docReference, orderBy("createdAt", "asc"));
       onSnapshot(q, (snapshot) => {
@@ -41,9 +43,12 @@ export const DirectMessages = () => {
   return (
     <Container>
       <HeadingTwo text="messages" />
+      {/* the component should do the looping pass it as a prop */}`
+      {/* or use composition to make a wrapper */}
       {messages.map((message) => (
         <MessageBubble text={message.text} from={message.from} />
       ))}
+      <MessageInput placeholder="Aa" />
     </Container>
   );
 };

@@ -26,6 +26,7 @@ export const MessageOverview = () => {
 
   useEffect(() => {
     const fetchLatestMessage = async () => {
+      // chunk the array so you only get the first 25 or something once scrolled to top it loads the next 25
       currentUser.hasMessaged.forEach((githubId) => {
         const docName = getMessengerDocName([currentUser.githubId, githubId]);
 
@@ -37,7 +38,7 @@ export const MessageOverview = () => {
         const q = query(reference, orderBy("createdAt", "desc"), limit(1));
         onSnapshot(q, (snapshot) => {
           snapshot.docChanges().forEach((change) => {
-            setLatestMessages((current) => [...current, change.doc.data()]);
+            setLatestMessages((current) => [change.doc.data(), ...current]);
           });
         });
       });

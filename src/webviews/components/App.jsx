@@ -15,6 +15,7 @@ import { Pill } from "./Pill";
 export const App = () => {
   const { setAccessToken, setCurrentUser, currentScreen, setCurrentScreen } =
     useContext(RubberDuckerContext);
+  // loggedIn, setLoggedIn
   const [login, setLogin] = useState(false);
   const [techFilters, setTechFilters] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);

@@ -1,54 +1,98 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseApp";
+import styled from "styled-components";
 
 import DatalistInput, { useComboboxControls } from "react-datalist-input";
+
+const Container = styled.div`
+  .react-datalist-input__container > * {
+    box-sizing: border-box;
+  }
+
+  .react-datalist-input__container {
+    width: 100%;
+    position: relative;
+  }
+
+  .react-datalist-input__textbox {
+    width: 100%;
+    border: 1px solid blue;
+    padding: 16px;
+  }
+
+  .react-datalist-input__listbox {
+    width: 100%;
+    position: absolute;
+    margin-top: 4px;
+    border: 1px solid red;
+    background: purple;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    list-style-type: none;
+    z-index: 10;
+  }
+
+  .react-datalist-input__listbox-option {
+    width: 100%;
+    background: green;
+    cursor: pointer;
+    padding: 16px;
+    color: white;
+  }
+
+  .react-datalist-input__listbox-option:focus {
+    background: pink;
+  }
+
+  .react-datalist-input__listbox-option:hover {
+    background: blue;
+  }
+`;
 
 export const SearchableDropdown = ({
   setUsers,
   techFilters,
   setTechFilters,
 }) => {
-  const [filter1, setFilter1] = useState([]);
-  const [filter2, setFilter2] = useState([]);
-  const [filter3, setFilter3] = useState([]);
+  const [collaborators, setCollaborators] = useState([]);
+  // set all errors in the context
+  const [errorMessage, setErrorMessage] = useState("");
   const { setValue, value } = useComboboxControls();
 
-  const handleInputSelection = async ({ type, proficiency = 5 }) => {
-    const technology = type.toLowerCase();
-    // do some more sanitizing checks
-
+  const validateInput = (type) => {
+    const filter = type.toLowerCase();
     if (
-      techFilters.some((filter) => filter.type === technology) ||
-      technology.length <= 0
-    )
+      techFilters.some((filter) => filter.type === filter) ||
+      filter.length <= 0
+    ) {
+      if (filter.length <= 0) setErrorMessage("you must enter a value");
+      else setErrorMessage("filter option already exists");
       return;
+    } else {
+      setErrorMessage("");
+      return filter;
+    }
+  };
 
-    // only set this proficieny if its changes
+  const handleInputSelection = async ({ type, proficiency = 5 }) => {
+    const technology = validateInput(type);
+    if (!technology) return;
+    console.log("technology", technology);
 
+    setValue("");
+    setUsers([]);
     setTechFilters((techFilters) => [
       ...techFilters,
       { type: technology, proficiency },
     ]);
-
-    setValue("");
-    setUsers([]);
-
     try {
       const ref = collection(db, "users");
       const q = query(ref, where(`tech.${technology}`, ">=", proficiency));
       const snapshot = await getDocs(q);
-
       snapshot.docs.forEach(async (doc) => {
-        if (techFilters.length === 0) {
-          setFilter1((filter) => [...filter, doc.data()]);
-        }
-        if (techFilters.length === 1) {
-          setFilter2((F) => [...F, doc.data()]);
-        }
-        if (techFilters.length === 2) {
-          setFilter3((filter) => [...filter, doc.data()]);
-        }
+        setCollaborators((currentArray) => [...currentArray, doc.data()]);
       });
     } catch (error) {
       console.log(error.toString());
@@ -56,43 +100,46 @@ export const SearchableDropdown = ({
   };
 
   useEffect(() => {
-    let filteredByAllConditions;
+    if (!techFilters.length) return;
 
-    const phatArray = [];
+    const potentialCollaboratorUsernames = collaborators.map(
+      (collaborator) => collaborator.username
+    );
 
-    phatArray.push(...filter1);
-    phatArray.push(...filter2);
-    phatArray.push(...filter3);
+    const getNumberOfOccurences = potentialCollaboratorUsernames.reduce(
+      function (obj, b) {
+        obj[b] = ++obj[b] || 1;
+        return obj;
+      },
+      {}
+    );
 
-    console.log("phatArray", phatArray);
+    Object.filter = (obj, predicate) =>
+      Object.keys(obj)
+        .filter((key) => predicate(obj[key]))
+        .reduce((res, key) => ((res[key] = obj[key]), res), {});
 
-    // stick them all in a fat array
-    // filter them if the value doesnt appear .lenth times
+    const collaboratorsThatMatchAllFilters =
+      Object.filter(
+        getNumberOfOccurences,
+        (score) => score === techFilters.length
+      ) || {};
 
-    if (techFilters.length === 1) {
-      filteredByAllConditions = filter1;
-    }
+    const hmm = Object.keys(collaboratorsThatMatchAllFilters);
 
-    if (techFilters.length === 2) {
-      filteredByAllConditions = filter2.filter((val) => !filter1.includes(val));
-    }
-    if (techFilters.length === 3) {
-      filteredByAllConditions = filter3.filter((val) => !filter2.includes(val));
-    }
+    const found = hmm.map((collaborator) =>
+      collaborators.find((element) => element.username === collaborator)
+    );
 
-    if (techFilters.length > 0) {
-      setUsers(filteredByAllConditions);
-    }
-  }, [filter1, filter2, filter3]);
+    setUsers(found);
+  }, [collaborators]);
 
   const handleProficiency = ({ type, proficiency }) => {
-    console.log("type selected", type);
-
     handleInputSelection({ type, proficiency });
   };
 
   return (
-    <>
+    <Container>
       <DatalistInput
         onBlur={() => handleInputSelection({ type: value })}
         placeholder="node"
@@ -107,37 +154,7 @@ export const SearchableDropdown = ({
           { value: "react", id: "react" },
         ]}
       />
-
-      <ul>
-        {techFilters.map((tech) => (
-          <>
-            <p>{tech.type}</p>
-            <div>
-              <button
-                onClick={() =>
-                  handleProficiency({ type: tech.type, proficiency: 4 })
-                }
-              >
-                junior
-              </button>
-              <button
-                onClick={() =>
-                  handleProficiency({ type: tech.type, proficiency: 8 })
-                }
-              >
-                mid
-              </button>
-              <button
-                onClick={() =>
-                  handleProficiency({ type: tech.type, proficiency: 10 })
-                }
-              >
-                senior
-              </button>
-            </div>
-          </>
-        ))}
-      </ul>
-    </>
+      <p>{errorMessage}</p>
+    </Container>
   );
 };

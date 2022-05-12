@@ -6,13 +6,11 @@ import useMessageHistoryRef from "../hooks/db/useMessageHistoryRef";
 
 export const MessageInput = ({ placeholder }) => {
   const { currentUser, currentCollaborator } = useContext(RubberDuckerContext);
+  const { githubId, username, profileURL } = currentCollaborator;
+
   const docReference = useMessageHistoryRef();
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState();
-
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value);
-  };
 
   const handleMessageSubmission = async (event) => {
     event.preventDefault();
@@ -27,24 +25,24 @@ export const MessageInput = ({ placeholder }) => {
     await setDoc(doc(docReference), {
       text: message,
       createdAt: new Date().getTime(),
-      to: currentCollaborator.githubId,
+      to: githubId,
       from: currentUser.githubId,
       user: {
-        username: currentCollaborator.username,
-        githubId: currentCollaborator.githubId,
-        profileURL: currentCollaborator.profileURL,
+        username,
+        githubId,
+        profileURL,
       },
     });
   };
   return (
     <form onSubmit={handleMessageSubmission}>
-      <textarea
+      <input
         type="text"
         maxLength={300}
         placeholder={placeholder}
-        onChange={handleMessageChange}
+        onChange={(event) => setMessage(event.target.value)}
         value={message}
-      ></textarea>
+      ></input>
       {errorMessage && <p>{errorMessage}</p>}
       <button type="submit">send</button>
     </form>
