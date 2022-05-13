@@ -8,9 +8,10 @@ import { Profile } from "./Profile";
 import { FindCollaborators } from "./FindCollaborators";
 import { MessageOverview } from "./MessageOverview";
 import { DirectMessages } from "./DirectMessages";
+import { Footer } from "./Footer";
 
 export const App = () => {
-  const { setAccessToken, setCurrentUser, currentScreen, setCurrentScreen } =
+  const { setAccessToken, setCurrentUser, currentScreen } =
     useContext(RubberDuckerContext);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -81,9 +82,7 @@ export const App = () => {
               <DirectMessages />
             </Card>
           )}
-          <button onClick={() => setCurrentScreen("message-overview")}>
-            messages
-          </button>
+          <Footer />
         </>
       )}
     </>

@@ -5,10 +5,9 @@ import { IoClose } from "react-icons/io5";
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 
 const Container = styled.div`
-  position: fixed;
   bottom: 0;
   width: 100%;
-  height: 700px;
+  height: 100vh;
   overflow-y: scroll;
   background: blue;
   .close-button {

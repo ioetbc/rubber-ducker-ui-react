@@ -64,6 +64,18 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           });
           break;
         }
+        case "live-share": {
+          vscode.commands
+            .executeCommand("liveshare.start")
+            .then((data: any) => {
+              const url = `${data.scheme}://${data.authority}${data.path}?${data.query}`;
+              webviewView.webview.postMessage({
+                type: "liveshareURL",
+                value: url,
+              });
+            });
+          break;
+        }
         case "onError": {
           if (!data.value) {
             return;
