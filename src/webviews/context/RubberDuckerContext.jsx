@@ -9,7 +9,7 @@ export const RubberDuckerContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [currentCollaborator, setCurrentCollaborator] = useState(null);
-  const [currentScreen, setCurrentScreen] = useState("homepage");
+  const [currentScreen, setCurrentScreen] = useState("home");
 
   return (
     <RubberDuckerContext.Provider

@@ -23,7 +23,7 @@ export const handleTechnologyType = ({
     proficency: 5,
   });
 
-  teacherFilters = teacherFilters;
+  // teacherFilters = teacherFilters;
 
   return teacherFilters;
 };

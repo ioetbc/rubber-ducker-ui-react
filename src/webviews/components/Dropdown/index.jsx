@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../firebaseApp";
+import { db } from "../../../firebaseApp";
 import styled from "styled-components";
 
 import DatalistInput, { useComboboxControls } from "react-datalist-input";
+import { filteredBastards } from "./helpers";
 
 const Container = styled.div`
   .react-datalist-input__container > * {
@@ -50,6 +51,11 @@ const Container = styled.div`
     background: blue;
   }
 `;
+
+// TODO
+// ability to remove a filter
+// click advanced and you can filter users by proficiency
+// click advanced and you can filter user for free / paid
 
 export const SearchableDropdown = ({
   setUsers,
@@ -100,43 +106,11 @@ export const SearchableDropdown = ({
   };
 
   useEffect(() => {
-    if (!techFilters.length) return;
-
-    const potentialCollaboratorUsernames = collaborators.map(
-      (collaborator) => collaborator.username
-    );
-
-    const getNumberOfOccurences = potentialCollaboratorUsernames.reduce(
-      function (obj, b) {
-        obj[b] = ++obj[b] || 1;
-        return obj;
-      },
-      {}
-    );
-
-    Object.filter = (obj, predicate) =>
-      Object.keys(obj)
-        .filter((key) => predicate(obj[key]))
-        .reduce((res, key) => ((res[key] = obj[key]), res), {});
-
-    const collaboratorsThatMatchAllFilters =
-      Object.filter(
-        getNumberOfOccurences,
-        (score) => score === techFilters.length
-      ) || {};
-
-    const hmm = Object.keys(collaboratorsThatMatchAllFilters);
-
-    const found = hmm.map((collaborator) =>
-      collaborators.find((element) => element.username === collaborator)
-    );
-
-    setUsers(found);
+    console.log("collaborators", collaborators);
+    console.log("techFilters", techFilters);
+    const bastards = filteredBastards(collaborators, techFilters);
+    setUsers(bastards);
   }, [collaborators]);
-
-  const handleProficiency = ({ type, proficiency }) => {
-    handleInputSelection({ type, proficiency });
-  };
 
   return (
     <Container>

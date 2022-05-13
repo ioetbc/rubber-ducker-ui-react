@@ -3,23 +3,18 @@ import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../../firebaseApp";
 
-import { ProfileCard } from "./ProfileCard";
 import { Card } from "./Card";
 import { Profile } from "./Profile";
+import { FindCollaborators } from "./FindCollaborators";
 import { MessageOverview } from "./MessageOverview";
 import { DirectMessages } from "./DirectMessages";
-import { SearchableDropdown } from "./DropDown";
-import { Pill } from "./Pill";
 
-// make sure that all db queries are reading the gihub_id and not username etc
 export const App = () => {
   const { setAccessToken, setCurrentUser, currentScreen, setCurrentScreen } =
     useContext(RubberDuckerContext);
-  // loggedIn, setLoggedIn
-  const [login, setLogin] = useState(false);
-  const [techFilters, setTechFilters] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState(false);
-  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     tsvscode.postMessage({ type: "getToken", value: undefined });
@@ -27,16 +22,16 @@ export const App = () => {
       if (event.data.type !== "accessToken") return;
       const token = event.data.value;
       if (!token) {
-        setLogin(false);
+        setLoggedIn(false);
       }
       try {
         const bar = httpsCallable(functions, "bar");
         const result = await bar({ accessToken: token });
         setAccessToken(token);
         setCurrentUser(result.data);
-        setLogin(true);
+        setLoggedIn(true);
       } catch (error) {
-        setLogin(false);
+        setLoggedIn(false);
         setErrorMessage(error.toString());
       }
 
@@ -50,10 +45,10 @@ export const App = () => {
       const message = event.data;
       const token = message.value;
       setAccessToken(token);
-      const getCurrentUser = httpsCallable(functions, "getCurrentUser");
-      const currentUser = await getCurrentUser({ accessToken: token });
-      console.log("currentUser", currentUser);
       try {
+        const getCurrentUser = httpsCallable(functions, "getCurrentUser");
+        const currentUser = await getCurrentUser({ accessToken: token });
+        console.log("currentUser", currentUser);
       } catch (error) {
         console.log("fucking error", error);
       }
@@ -62,31 +57,15 @@ export const App = () => {
 
   return (
     <>
-      {!login ? (
+      {!loggedIn ? (
         <>
           <button onClick={loginUser}>login</button>
           {errorMessage && <p>{errorMessage}</p>}
         </>
       ) : (
         <>
-          <button onClick={() => setCurrentScreen("message-overview")}>
-            messages
-          </button>
-          <SearchableDropdown
-            techFilters={techFilters}
-            setTechFilters={setTechFilters}
-            setUsers={setUsers}
-          />
-          {techFilters.map((tech) => (
-            <Pill label={tech.type} />
-          ))}
-          {users.map((user) => (
-            <ProfileCard
-              githubId={user.githubId}
-              profileURL={user.profileURL}
-              username={user.username}
-            />
-          ))}
+          {currentScreen === "home" && <FindCollaborators />}
+
           {currentScreen === "profile" && (
             <Card>
               <Profile />
@@ -102,6 +81,9 @@ export const App = () => {
               <DirectMessages />
             </Card>
           )}
+          <button onClick={() => setCurrentScreen("message-overview")}>
+            messages
+          </button>
         </>
       )}
     </>

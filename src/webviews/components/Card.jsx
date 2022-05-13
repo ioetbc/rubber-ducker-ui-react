@@ -23,7 +23,7 @@ export const Card = ({ children }) => {
   const { setCurrentScreen } = useContext(RubberDuckerContext);
 
   const handleClose = () => {
-    setCurrentScreen("homepage");
+    setCurrentScreen("home");
   };
   return (
     <Container>

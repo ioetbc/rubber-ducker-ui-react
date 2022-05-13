@@ -16,7 +16,7 @@ const Container = styled.div`
   }
 `;
 
-export const ProfileCard = ({ githubId, profileURL, username }) => {
+export const ProfileCard = ({ key, githubId, profileURL, username }) => {
   const { setCurrentCollaborator, setCurrentScreen } =
     useContext(RubberDuckerContext);
 
@@ -25,7 +25,7 @@ export const ProfileCard = ({ githubId, profileURL, username }) => {
     setCurrentCollaborator({ username, githubId, profileURL });
   };
   return (
-    <Container key={githubId} onClick={handleProfile}>
+    <Container key={key} onClick={handleProfile}>
       <img className="avatar" src={profileURL} alt={username}></img>
       <p className="username">{username}</p>
     </Container>

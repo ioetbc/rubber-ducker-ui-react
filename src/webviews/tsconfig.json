@@ -6,6 +6,7 @@
     "jsx": "react-jsx",
     "strict": true,
     "types": ["svelte"],
-    "lib": ["dom", "es7"]
+    "lib": ["dom", "es7"],
+    "skipLibCheck": true
   }
 }
