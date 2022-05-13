@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { SearchableDropdown } from "./Dropdown";
 import { Pill } from "./Pill";
+import { Filters } from "./Filters";
 import { ProfileCard } from "./ProfileCard";
+import { TechProficiency } from "./TechProficiency";
+import { PerHourRateFilter } from "./PerHourRateFilter";
 
 // TODO
-// ability to remove a filter
-// click advanced and you can filter users by proficiency
 // click advanced and you can filter user for free / paid
 
 export const FindCollaborators = () => {
   const [techFilters, setTechFilters] = useState([]);
   const [users, setUsers] = useState([]);
+  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
+
+  const handleAdvancedSearch = () => {
+    setShowAdvancedSettings(!showAdvancedSettings);
+  };
 
   return (
     <>
@@ -19,15 +25,26 @@ export const FindCollaborators = () => {
         setTechFilters={setTechFilters}
         setUsers={setUsers}
       />
+      <button onClick={handleAdvancedSearch}>advanced</button>
       {techFilters.map((tech) => (
-        <Pill
-          key={tech}
-          label={tech.type}
-          close={true}
-          techFilters={techFilters}
-          setTechFilters={setTechFilters}
-        />
+        <Filters key={tech}>
+          <Pill
+            key={tech}
+            label={tech.type}
+            close={true}
+            techFilters={techFilters}
+            setTechFilters={setTechFilters}
+          />
+          {showAdvancedSettings && (
+            <TechProficiency
+              filter={tech}
+              techFilters={techFilters}
+              setTechFilters={setTechFilters}
+            />
+          )}
+        </Filters>
       ))}
+      {showAdvancedSettings && <PerHourRateFilter />}
       {users.map((user) => (
         <ProfileCard
           key={user.githubId}

@@ -53,7 +53,6 @@ const Container = styled.div`
 `;
 
 // TODO
-// ability to remove a filter
 // click advanced and you can filter users by proficiency
 // click advanced and you can filter user for free / paid
 
@@ -141,6 +140,7 @@ export const SearchableDropdown = ({
           { value: "javascript", id: "javascript" },
           { value: "dynamo_db", id: "dynamo_db" },
           { value: "react", id: "react" },
+          { value: "dns", id: "dns" },
         ]}
       />
       <p>{errorMessage}</p>
