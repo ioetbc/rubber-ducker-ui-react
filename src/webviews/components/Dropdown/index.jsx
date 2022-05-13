@@ -88,22 +88,37 @@ export const SearchableDropdown = ({
     console.log("technology", technology);
 
     setValue("");
-    setUsers([]);
+    // unfocus input
+
     setTechFilters((techFilters) => [
       ...techFilters,
       { type: technology, proficiency },
     ]);
-    try {
-      const ref = collection(db, "users");
-      const q = query(ref, where(`tech.${technology}`, ">=", proficiency));
-      const snapshot = await getDocs(q);
-      snapshot.docs.forEach(async (doc) => {
-        setCollaborators((currentArray) => [...currentArray, doc.data()]);
-      });
-    } catch (error) {
-      console.log(error.toString());
-    }
   };
+
+  useEffect(() => {
+    setUsers([]);
+    setCollaborators([]);
+    const fetchBastards = async () => {
+      console.log("fetching bastards");
+      techFilters.forEach(async (filter) => {
+        const ref = collection(db, "users");
+        const q = query(
+          ref,
+          where(`tech.${filter.type}`, ">=", filter.proficiency)
+        );
+        const snapshot = await getDocs(q);
+        snapshot.docs.forEach(async (doc) => {
+          setCollaborators((currentArray) => [...currentArray, doc.data()]);
+        });
+      });
+    };
+    try {
+      fetchBastards();
+    } catch (error) {
+      console.log("error fetching bastards", error);
+    }
+  }, [techFilters]);
 
   useEffect(() => {
     console.log("collaborators", collaborators);

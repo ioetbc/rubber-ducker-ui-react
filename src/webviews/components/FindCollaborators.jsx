@@ -19,18 +19,15 @@ export const FindCollaborators = () => {
         setTechFilters={setTechFilters}
         setUsers={setUsers}
       />
-      {/* {techFilters.map((tech) => (
+      {techFilters.map((tech) => (
         <Pill
           key={tech}
           label={tech.type}
           close={true}
           techFilters={techFilters}
           setTechFilters={setTechFilters}
-          setUsers={setUsers}
-          collaborators={collaborators}
-          setCollaborators={setCollaborators}
         />
-      ))} */}
+      ))}
       {users.map((user) => (
         <ProfileCard
           key={user.githubId}
