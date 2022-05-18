@@ -19,12 +19,8 @@ export const Footer = () => {
       <button onClick={() => setCurrentScreen("message-overview")}>
         messages
       </button>
-      <button onClick={() => setCurrentScreen("message-overview")}>
-        my profile
-      </button>
-      <button onClick={() => setCurrentScreen("message-overview")}>
-        invoice
-      </button>
+      <button onClick={() => setCurrentScreen("myProfile")}>my profile</button>
+      <button onClick={() => setCurrentScreen("invoices")}>invoice</button>
       <button onClick={() => setCurrentScreen("message-overview")}>
         legal
       </button>

@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { RubberDuckerContext } from "../context/RubberDuckerContext";
+import { RubberDuckerContext } from "../../context/RubberDuckerContext";
 import styled from "styled-components";
 
-import { HeadingThree, Paragraph } from "./Fonts";
+import { HeadingThree, Paragraph } from "../misc/Fonts";
+import { Input } from "../misc/Input";
 
 const Container = styled.div`
   background: red;
@@ -11,12 +12,12 @@ const Container = styled.div`
   margin-top: 4px;
 `;
 
-export const Bio = () => {
+export const EditBio = () => {
   const { currentUser } = useContext(RubberDuckerContext);
   return (
     <Container>
-      <HeadingThree text="about me" />
-      <Paragraph text={currentUser.bio} />
+      <HeadingThree text="edit bio" />
+      <Input type="text" placeholder={currentUser.bio} />
     </Container>
   );
 };

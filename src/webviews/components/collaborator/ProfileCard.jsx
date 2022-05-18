@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { RubberDuckerContext } from "../context/RubberDuckerContext";
+import { RubberDuckerContext } from "../../context/RubberDuckerContext";
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ export const ProfileCard = ({ key, githubId, profileURL, username }) => {
     useContext(RubberDuckerContext);
 
   const handleProfile = () => {
-    setCurrentScreen("profile");
+    setCurrentScreen("collaboratorProfile");
     setCurrentCollaborator({ username, githubId, profileURL });
   };
   return (

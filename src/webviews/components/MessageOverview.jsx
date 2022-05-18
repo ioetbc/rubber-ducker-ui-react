@@ -13,7 +13,7 @@ import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import { getMessengerDocName } from "../utils/db/getMessengerDocName";
 
 import { MessageTile } from "./MessageTile";
-import { HeadingTwo } from "./Fonts";
+import { HeadingTwo } from "./misc/Fonts";
 
 const Container = styled.div`
   width: 100%;

@@ -4,10 +4,12 @@ import { httpsCallable } from "firebase/functions";
 import { functions } from "../../firebaseApp";
 
 import { Card } from "./Card";
-import { Profile } from "./Profile";
+import { MyProfile } from "./user/MyProfile";
+import { CollaboratorProfile } from "./collaborator/CollaboratorProfile";
 import { FindCollaborators } from "./FindCollaborators";
 import { MessageOverview } from "./MessageOverview";
 import { DirectMessages } from "./DirectMessages";
+import { Invoices } from "./Invoices";
 import { Footer } from "./Footer";
 
 export const App = () => {
@@ -67,9 +69,9 @@ export const App = () => {
         <>
           {currentScreen === "home" && <FindCollaborators />}
 
-          {currentScreen === "profile" && (
+          {currentScreen === "collaboratorProfile" && (
             <Card>
-              <Profile />
+              <CollaboratorProfile />
             </Card>
           )}
           {currentScreen === "message-overview" && (
@@ -80,6 +82,16 @@ export const App = () => {
           {currentScreen === "direct-message" && (
             <Card>
               <DirectMessages />
+            </Card>
+          )}
+          {currentScreen === "myProfile" && (
+            <Card>
+              <MyProfile />
+            </Card>
+          )}
+          {currentScreen === "invoices" && (
+            <Card>
+              <Invoices />
             </Card>
           )}
           <Footer />

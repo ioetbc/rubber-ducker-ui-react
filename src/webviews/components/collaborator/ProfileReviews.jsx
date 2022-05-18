@@ -1,11 +1,11 @@
 import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 
-import { RubberDuckerContext } from "../context/RubberDuckerContext";
-import { db } from "../../firebaseApp";
+import { RubberDuckerContext } from "../../context/RubberDuckerContext";
+import { db } from "../../../firebaseApp";
 import { collection, onSnapshot } from "firebase/firestore";
 
-import { HeadingFive, HeadingThree, Paragraph } from "./Fonts";
+import { HeadingFive, HeadingThree, Paragraph } from "../misc/Fonts";
 
 const Container = styled.div`
   background: red;

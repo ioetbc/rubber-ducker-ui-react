@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
-import { Paragraph } from "./Fonts";
+import { Paragraph } from "./misc/Fonts";
 
 const Container = styled.div`
   background: ${(props) => (props.youSentThisMessage ? "green" : "red")};

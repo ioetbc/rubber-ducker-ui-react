@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { SearchableDropdown } from "./Dropdown";
-import { Pill } from "./Pill";
+import styled from "styled-components";
+
+import { SearchableDropdown } from "./dropdown";
+import { Pill } from "./misc/Pill";
 import { Filters } from "./Filters";
-import { ProfileCard } from "./ProfileCard";
+import { ProfileCard } from "./collaborator/ProfileCard";
 import { TechProficiency } from "./TechProficiency";
 import { PerHourRateFilter } from "./PerHourRateFilter";
 
-// TODO
-// click advanced and you can filter user for free / paid
+const ProfileCardContainer = styled.div`
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px; */
+`;
 
 export const FindCollaborators = () => {
   const [techFilters, setTechFilters] = useState([]);
@@ -45,14 +50,16 @@ export const FindCollaborators = () => {
         </Filters>
       ))}
       {showAdvancedSettings && <PerHourRateFilter />}
-      {users.map((user) => (
-        <ProfileCard
-          key={user.githubId}
-          githubId={user.githubId}
-          profileURL={user.profileURL}
-          username={user.username}
-        />
-      ))}
+      <ProfileCardContainer>
+        {users.map((user) => (
+          <ProfileCard
+            key={user.githubId}
+            githubId={user.githubId}
+            profileURL={user.profileURL}
+            username={user.username}
+          />
+        ))}
+      </ProfileCardContainer>
     </>
   );
 };

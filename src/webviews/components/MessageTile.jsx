@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import styled from "styled-components";
 
-import { HeadingFive } from "./Fonts";
+import { HeadingFive } from "./misc/Fonts";
 
 const Container = styled.div`
   .container {

@@ -5,7 +5,7 @@ import { onSnapshot, query, orderBy } from "firebase/firestore";
 import { RubberDuckerContext } from "../context/RubberDuckerContext";
 import useMessageHistoryRef from "../hooks/db/useMessageHistoryRef";
 
-import { HeadingTwo } from "./Fonts";
+import { HeadingTwo } from "./misc/Fonts";
 import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
 
