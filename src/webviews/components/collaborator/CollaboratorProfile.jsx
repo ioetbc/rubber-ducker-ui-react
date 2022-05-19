@@ -20,7 +20,7 @@ export const CollaboratorProfile = () => {
   const { currentCollaborator } = useContext(RubberDuckerContext);
   return (
     <Container>
-      <ProfileIdentifier user="swr:" />
+      <ProfileIdentifier user={currentCollaborator} />
       <Bio />
       <TopTech />
       <ProfileReviews />

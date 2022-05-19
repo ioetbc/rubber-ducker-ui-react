@@ -26,10 +26,10 @@ export const MessageOverview = () => {
 
   useEffect(() => {
     const fetchLatestMessage = async () => {
-      // chunk the array so you only get the first 25 or something once scrolled to top it loads the next 25
       currentUser.hasMessaged.forEach((githubId) => {
         const docName = getMessengerDocName([currentUser.githubId, githubId]);
 
+        // TODO pretty sure this can be simplified. Look how invoices are implemented
         const reference = collection(
           db,
           `messages/${currentUser.githubId}/${docName}/history/messages`

@@ -141,6 +141,7 @@ export const SearchableDropdown = ({
           { value: "dynamo_db", id: "dynamo_db" },
           { value: "react", id: "react" },
           { value: "dns", id: "dns" },
+          { value: "firebase", id: "firebase" },
         ]}
       />
       <p>{errorMessage}</p>

@@ -9,7 +9,7 @@ import { CollaboratorProfile } from "./collaborator/CollaboratorProfile";
 import { FindCollaborators } from "./FindCollaborators";
 import { MessageOverview } from "./MessageOverview";
 import { DirectMessages } from "./DirectMessages";
-import { Invoices } from "./Invoices";
+import { MyInvoices } from "./invoices/MyInvoices";
 import { Footer } from "./Footer";
 
 export const App = () => {
@@ -91,7 +91,7 @@ export const App = () => {
           )}
           {currentScreen === "invoices" && (
             <Card>
-              <Invoices />
+              <MyInvoices />
             </Card>
           )}
           <Footer />
