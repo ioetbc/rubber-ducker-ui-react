@@ -4,7 +4,7 @@ import { httpsCallable } from "firebase/functions";
 import { functions } from "../../firebaseApp";
 
 import { Card } from "./Card";
-import { MyProfile } from "./user/MyProfile";
+import { MyProfile } from "./profile/MyProfile";
 import { CollaboratorProfile } from "./collaborator/CollaboratorProfile";
 import { FindCollaborators } from "./FindCollaborators";
 import { MessageOverview } from "./MessageOverview";

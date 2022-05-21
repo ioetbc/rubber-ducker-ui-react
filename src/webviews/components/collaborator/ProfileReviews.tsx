@@ -65,8 +65,8 @@ export const ProfileReviews = () => {
       {!reviews.length && <p>no reviews yet</p>}
       <HeadingFive className="rating" text={"*".repeat(rating)} />
       <ul className="list">
-        {reviews.map((review) => (
-          <li>
+        {reviews.map((review, index) => (
+          <li key={`${review.from}-${index}`}>
             <div className="content">
               <Paragraph text={review.text} />
               <Paragraph text={"*".repeat(review.rating)} />

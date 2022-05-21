@@ -19,7 +19,10 @@ export const MyProfile = () => {
   const { currentUser } = useContext(RubberDuckerContext);
   return (
     <Container>
-      <ProfileIdentifier user={currentUser} />
+      <ProfileIdentifier
+        profileURL={currentUser.profileURL}
+        username={currentUser.username}
+      />
       <EditUsername />
       <EditBio />
       <EditEmailAddress />

@@ -3,13 +3,14 @@ import styled from "styled-components";
 
 import { RubberDuckerContext } from "../../context/RubberDuckerContext";
 import { ProfileIdentifier } from "./ProfileIdentifier";
+import { ProfileReviews } from "./ProfileReviews";
+import { TopTech } from "./TopTech";
+import { Bio } from "./Bio";
+
 import { MessagesContainer } from "../MessagesContainer";
 import { PreviousMessages } from "../PreviousMessages";
 import { MessageInput } from "../MessageInput";
-import { ProfileReviews } from "./ProfileReviews";
 import { HeadingThree } from "../misc/Fonts";
-import { TopTech } from "./TopTech";
-import { Bio } from "./Bio";
 
 const Container = styled.div`
   width: 100%;

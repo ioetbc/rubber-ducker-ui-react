@@ -16,7 +16,19 @@ const Container = styled.div`
   }
 `;
 
-export const ProfileCard = ({ key, githubId, profileURL, username }) => {
+interface ProfileCardInterface {
+  key: string;
+  githubId: string;
+  profileURL: string;
+  username: string;
+}
+
+export const ProfileCard = ({
+  key,
+  githubId,
+  profileURL,
+  username,
+}: ProfileCardInterface) => {
   const { setCurrentCollaborator, setCurrentScreen } =
     useContext(RubberDuckerContext);
 

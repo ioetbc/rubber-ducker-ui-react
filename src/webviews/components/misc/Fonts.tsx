@@ -33,26 +33,31 @@ const Body = styled.p`
   font-size: 14px;
 `;
 
-export const Paragraph = ({ text, className }) => {
+interface FontInterface {
+  text: string;
+  className?: string;
+}
+
+export const Paragraph = ({ text, className }: FontInterface) => {
   return <Body className={className}>{text}</Body>;
 };
 
-export const HeadingOne = ({ text, className }) => {
+export const HeadingOne = ({ text, className }: FontInterface) => {
   return <H1 className={className}>{text}</H1>;
 };
 
-export const HeadingTwo = ({ text, className }) => {
+export const HeadingTwo = ({ text, className }: FontInterface) => {
   return <H2 className={className}>{text}</H2>;
 };
 
-export const HeadingThree = ({ text, className }) => {
+export const HeadingThree = ({ text, className }: FontInterface) => {
   return <H3 className={className}>{text}</H3>;
 };
 
-export const HeadingFour = ({ text, className }) => {
+export const HeadingFour = ({ text, className }: FontInterface) => {
   return <H4 className={className}>{text}</H4>;
 };
 
-export const HeadingFive = ({ text, className }) => {
+export const HeadingFive = ({ text, className }: FontInterface) => {
   return <H5 className={className}>{text}</H5>;
 };

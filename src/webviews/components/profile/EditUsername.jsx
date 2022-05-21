@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
+import { doc, setDoc } from "firebase/firestore";
 import { RubberDuckerContext } from "../../context/RubberDuckerContext";
 import styled from "styled-components";
 
-import { HeadingThree, Paragraph } from "../misc/Fonts";
+import { HeadingThree } from "../misc/Fonts";
 import { Input } from "../misc/Input";
 
 const Container = styled.div`
@@ -14,6 +15,26 @@ const Container = styled.div`
 
 export const EditUsername = () => {
   const { currentUser } = useContext(RubberDuckerContext);
+
+  // const handleSubmission = () => {
+  // const reference = collection(
+  //   db,
+  //   `messages/${currentUser.githubId}/${docName}/history/messages`
+  // );
+
+  //     await setDoc(doc(docReference), {
+  //     text,
+  //     createdAt: new Date().getTime(),
+  //     to: githubId,
+  //     from: currentUser.githubId,
+  //     user: {
+  //       username,
+  //       githubId,
+  //       profileURL,
+  //     },
+  //   });
+  // }
+
   return (
     <Container>
       <HeadingThree text="edit username" />

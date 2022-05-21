@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { RubberDuckerContext } from "../../context/RubberDuckerContext";
 
 const Container = styled.div`
   background: red;
@@ -17,11 +16,19 @@ const Container = styled.div`
   }
 `;
 
-export const ProfileIdentifier = ({ user }) => {
+interface ProfileIdentifierInterface {
+  profileURL: string;
+  username: string;
+}
+
+export const ProfileIdentifier = ({
+  profileURL,
+  username,
+}: ProfileIdentifierInterface) => {
   return (
     <Container>
-      <img className="avatar" src={user.profileURL} alt={user.username}></img>
-      <p>{user && user.username}</p>
+      <img className="avatar" src={profileURL} alt={username}></img>
+      <p>{username && username}</p>
     </Container>
   );
 };
